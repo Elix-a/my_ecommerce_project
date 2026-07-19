@@ -1,5 +1,3 @@
-# src/classes.py
-
 import json
 from typing import List
 
