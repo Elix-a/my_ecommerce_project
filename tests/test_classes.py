@@ -1,6 +1,7 @@
 # tests/test_classes.py
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -35,7 +36,8 @@ def test_product_initialization(sample_product: Product) -> None:
 
 
 def test_category_initialization(
-    sample_category: Category, sample_product: Product
+    sample_category: Category,
+    sample_product: Product,
 ) -> None:
     """Проверяет корректность инициализации категории."""
     assert sample_category.name == "Продукты"
@@ -63,7 +65,7 @@ def test_product_count_increment() -> None:
     assert Category.product_count == initial_product_count + len(products)
 
 
-def test_load_categories_from_json(tmp_path) -> None:
+def test_load_categories_from_json(tmp_path: Path) -> None:
     """Проверяет загрузку категорий из JSON-файла."""
     test_data = [
         {

@@ -13,7 +13,11 @@ class Product:
     quantity: int
 
     def __init__(
-        self, name: str, description: str, price: float, quantity: int
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
     ) -> None:
         """Инициализация экземпляра Product."""
         self.name = name
