@@ -7,7 +7,7 @@ class Product:
 
     name: str
     description: str
-    price: float
+    __price: float
     quantity: int
 
     def __init__(
@@ -20,8 +20,34 @@ class Product:
         """Инициализация экземпляра Product."""
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
+
+    @property
+    def price(self) -> float:
+        """Геттер для приватного атрибута цены."""
+        return self.__price
+
+    @price.setter
+    def price(self, new_price: float) -> None:
+        """Сеттер для цены с проверкой на положительное значение."""
+        if new_price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+            return
+        self.__price = new_price
+
+    @classmethod
+    def new_product(cls, data: dict) -> "Product":
+        """
+        Класс-метод для создания продукта из словаря.
+        Ожидаемые ключи: name, description, price, quantity.
+        """
+        return cls(
+            name=data["name"],
+            description=data["description"],
+            price=float(data["price"]),
+            quantity=int(data["quantity"]),
+        )
 
 
 class Category:
@@ -29,7 +55,7 @@ class Category:
 
     name: str
     description: str
-    products: List[Product]
+    __products: List[Product]
 
     category_count: int = 0
     product_count: int = 0
@@ -40,13 +66,35 @@ class Category:
         description: str,
         products: List[Product],
     ) -> None:
-        """Инициализирует категорию и обновляет счётчики."""
+        """
+        Инициализация категории.
+        Список продуктов сохраняется в приватный атрибут.
+        """
         self.name = name
         self.description = description
-        self.products = products
+        self.__products = products
 
         Category.category_count += 1
         Category.product_count += len(products)
+
+    def add_product(self, product: Product) -> None:
+        """
+        Добавляет продукт в приватный список товаров категории.
+        """
+        self.__products.append(product)
+        Category.product_count += 1
+
+    @property
+    def products(self) -> str:
+        """
+        Геттер, возвращающий строку с информацией о всех продуктах.
+        """
+        if not self.__products:
+            return ""
+        result = ""
+        for prod in self.__products:
+            result += f"{prod.name}, {prod.price} руб. " f"Остаток: {prod.quantity} шт.\n"
+        return result
 
 
 def load_categories_from_json(file_path: str) -> List[Category]:
@@ -61,15 +109,15 @@ def load_categories_from_json(file_path: str) -> List[Category]:
 
     categories = []
     for cat_data in data:
-        products = [
-            Product(
+        products = []
+        for prod in cat_data["products"]:
+            product = Product(
                 name=prod["name"],
                 description=prod["description"],
                 price=float(prod["price"]),
                 quantity=int(prod["quantity"]),
             )
-            for prod in cat_data["products"]
-        ]
+            products.append(product)
         category = Category(
             name=cat_data["name"],
             description=cat_data["description"],

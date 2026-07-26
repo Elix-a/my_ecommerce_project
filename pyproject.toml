@@ -20,6 +20,9 @@ mypy = "^1.10.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.flake8]
+max-line-length = 119
+
 [tool.black]
 line-length = 119
 target-version = ["py313"]
