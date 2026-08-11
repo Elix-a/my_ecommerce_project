@@ -1,5 +1,3 @@
-# tests/test_classes.py
-
 import json
 from pathlib import Path
 
@@ -209,10 +207,10 @@ def test_smartphone_initialization() -> None:
 
 def test_lawn_grass_initialization() -> None:
     """Проверка инициализации травы."""
-    grass = LawnGrass("Green", "Lawn", 10.0, 100, "USA", 7, "Green")
+    grass = LawnGrass("Green", "Lawn", 10.0, 100, "USA", "7 дней", "Green")
     assert grass.name == "Green"
     assert grass.country == "USA"
-    assert grass.germination_period == 7
+    assert grass.germination_period == "7 дней"
     assert grass.color == "Green"
 
 
@@ -226,7 +224,7 @@ def test_add_same_class() -> None:
 def test_add_different_class_raises() -> None:
     """Сложение продуктов разных классов вызывает TypeError."""
     phone = Smartphone("A", "desc", 100, 1, 3.0, "M", 32, "Red")
-    grass = LawnGrass("B", "desc", 50, 2, "RU", 10, "Green")
+    grass = LawnGrass("B", "desc", 50, 2, "RU", "10 дней", "Green")
     with pytest.raises(TypeError, match="Складывать можно только товары одного класса"):
         _ = phone + grass
 

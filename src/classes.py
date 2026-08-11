@@ -91,7 +91,7 @@ class LawnGrass(Product):
     """Класс для представления травы газонной."""
 
     country: str
-    germination_period: int
+    germination_period: str
     color: str
 
     def __init__(
@@ -101,7 +101,7 @@ class LawnGrass(Product):
         price: float,
         quantity: int,
         country: str,
-        germination_period: int,
+        germination_period: str,
         color: str,
     ) -> None:
         """Инициализация экземпляра LawnGrass."""
